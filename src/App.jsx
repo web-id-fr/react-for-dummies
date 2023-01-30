@@ -2,12 +2,17 @@ import birthdayCake from './assets/birthday-cake.svg'
 import './App.css'
 import { useEffect, useState } from 'react'
 
+const baseUrl = 'https://infallible-tereshkova-717266.netlify.app/.netlify/functions/server'
+const currentYear = new Date().getFullYear()
+
 function App() {
     const [userList, setUserList] = useState([])
     const [userSelection, setUserSelection] = useState([])
+    const [result, setResult] = useState(undefined)
+    const [feedback, setFeedBack] = useState(undefined)
 
     useEffect(() => {
-        fetch('https://infallible-tereshkova-717266.netlify.app/.netlify/functions/server/users').then((res) => {
+        fetch(`${baseUrl}/users`).then((res) => {
             res.json().then((data) => {
                 setUserList(data)
             })
@@ -22,6 +27,25 @@ function App() {
     const handleInput = (event) => {
         setUserSelection(toggleItem(userSelection, Number(event.target.value)))
     }
+
+    useEffect(() => {
+        if (userSelection.length === 0) {
+            setResult(undefined)
+            setFeedBack('Merci de sélectionner une personne')
+            return
+        }
+        fetch(`${baseUrl}/average?ids=[${userSelection.join(',')}]`).then((res) => {
+            res.json().then((data) => {
+                if (!res.ok && data?.error) {
+                    setResult(undefined)
+                    setFeedBack(data.error)
+                    return
+                }
+                setResult(Math.round(currentYear - data.average))
+                setFeedBack(undefined)
+            })
+        })
+    }, [userSelection])
 
     return (
         <>
@@ -44,7 +68,12 @@ function App() {
             <div className="average">
                 <img src={birthdayCake} width={200} alt="" />
                 <p>Âge moyen des personnes sélectionnées</p>
-                <p className="result">56 ans</p>
+                {result && (
+                    <p className="result">{result} ans</p>
+                )}
+                {feedback && (
+                    <p className="feedback">{feedback}</p>
+                )}
             </div>
         </>
     )
