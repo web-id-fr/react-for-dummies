@@ -1,16 +1,13 @@
 import birthdayCake from './assets/birthday-cake.svg'
 import './App.css'
 import { useEffect, useState } from 'react'
+import useAverage from './useAverage.js'
+import useUserSelection from './useUserSelection.js'
 
 const baseUrl = 'https://infallible-tereshkova-717266.netlify.app/.netlify/functions/server'
-const currentYear = new Date().getFullYear()
 
 function App() {
     const [userList, setUserList] = useState([])
-    const [userSelection, setUserSelection] = useState([])
-    const [result, setResult] = useState(undefined)
-    const [feedback, setFeedBack] = useState(undefined)
-
     useEffect(() => {
         fetch(`${baseUrl}/users`).then((res) => {
             res.json().then((data) => {
@@ -19,33 +16,12 @@ function App() {
         })
     }, [])
 
-    const toggleItem = (array, item) => {
-        return array.includes(item)
-            ? array.filter((user) => user !== item)
-            : array.concat(item);
-    }
+    const { userSelection, toggleUser } = useUserSelection()
     const handleInput = (event) => {
-        setUserSelection(toggleItem(userSelection, Number(event.target.value)))
+        toggleUser(Number(event.target.value))
     }
 
-    useEffect(() => {
-        if (userSelection.length === 0) {
-            setResult(undefined)
-            setFeedBack('Merci de sélectionner une personne')
-            return
-        }
-        fetch(`${baseUrl}/average?ids=[${userSelection.join(',')}]`).then((res) => {
-            res.json().then((data) => {
-                if (!res.ok && data?.error) {
-                    setResult(undefined)
-                    setFeedBack(data.error)
-                    return
-                }
-                setResult(Math.round(currentYear - data.average))
-                setFeedBack(undefined)
-            })
-        })
-    }, [userSelection])
+    const { result, feedback } = useAverage({ baseUrl, userSelection })
 
     return (
         <>
