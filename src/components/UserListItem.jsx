@@ -15,4 +15,6 @@ const UserListItem = ({ id, name, checked, onChange }) => {
     );
 };
 
-export default React.memo(UserListItem);
+export default React.memo(UserListItem, (prevProps, nextProps) => {
+    return prevProps.id === nextProps.id && prevProps.checked === nextProps.checked
+});
