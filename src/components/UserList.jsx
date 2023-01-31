@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react';
 import UserListItem from './UserListItem.jsx'
+import useUserSelection from '../hooks/useUserSelection.js'
 
-const UserList = ({ userList, userSelection, toggleUser }) => {
+const UserList = ({ userList }) => {
+    const { userSelection, toggleUser } = useUserSelection()
+
     const handleInput = useCallback((event) => {
         toggleUser(Number(event.target.value))
     }, [toggleUser])

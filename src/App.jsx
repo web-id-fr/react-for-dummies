@@ -1,6 +1,5 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import useUserSelection from './hooks/useUserSelection.js'
 import UserList from './components/UserList.jsx'
 import Average from './components/Average.jsx'
 
@@ -14,13 +13,11 @@ function App() {
         })
     }, [])
 
-    const { userSelection, toggleUser } = useUserSelection()
-
     return (
         <>
             <h1 className="title">Average age calculator</h1>
-            <UserList userList={userList} userSelection={userSelection} toggleUser={toggleUser} />
-            <Average userSelection={userSelection} />
+            <UserList userList={userList} />
+            <Average />
         </>
     )
 }

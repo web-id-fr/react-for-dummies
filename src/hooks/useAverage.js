@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import useUserSelection from './useUserSelection.js'
 
 const currentYear = new Date().getFullYear()
 
-export default function useAverage({ userSelection }) {
+export default function useAverage() {
+    const { userSelection } = useUserSelection()
     const [result, setResult] = useState(undefined)
     const [feedback, setFeedBack] = useState(undefined)
 

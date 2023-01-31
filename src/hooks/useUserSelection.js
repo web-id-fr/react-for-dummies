@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useContext } from 'react'
+import { UserSelectionContext } from '../contexts/UserSelection.jsx'
 
 export default function useUserSelection() {
-    const [userSelection, setUserSelection] = useState([])
+    const [userSelection, setUserSelection] = useContext(UserSelectionContext)
 
     const toggleItem = (array, item) => {
         return array.includes(item)
