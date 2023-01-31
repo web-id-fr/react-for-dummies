@@ -1,6 +1,7 @@
 import React from 'react';
 
 const UserListItem = ({ id, name, checked, onChange }) => {
+    console.log('render', id)
     return (
         <li>
             <label>
@@ -14,4 +15,4 @@ const UserListItem = ({ id, name, checked, onChange }) => {
     );
 };
 
-export default UserListItem;
+export default React.memo(UserListItem);

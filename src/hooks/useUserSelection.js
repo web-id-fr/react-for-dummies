@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useUserSelection() {
     const [userSelection, setUserSelection] = useState([])
@@ -8,9 +8,10 @@ export default function useUserSelection() {
             ? array.filter((user) => user !== item)
             : array.concat(item);
     }
-    const toggleUser = (userId) => {
-        setUserSelection(toggleItem(userSelection, userId))
-    }
+
+    const toggleUser = useCallback((userId) => {
+        setUserSelection((userSelection) => toggleItem(userSelection, userId))
+    }, [])
 
     return { userSelection, toggleUser }
 }

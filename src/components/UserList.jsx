@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import UserListItem from './UserListItem.jsx'
 
 const UserList = ({ userList, userSelection, toggleUser }) => {
-    const handleInput = (event) => {
+    const handleInput = useCallback((event) => {
         toggleUser(Number(event.target.value))
-    }
+    }, [toggleUser])
 
     return (
         <div className="user-list">
