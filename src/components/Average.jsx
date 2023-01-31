@@ -2,8 +2,8 @@ import React from 'react';
 import birthdayCake from '../assets/birthday-cake.svg'
 import useAverage from '../hooks/useAverage.js'
 
-const Average = ({ baseUrl, userSelection }) => {
-    const { result, feedback } = useAverage({ baseUrl, userSelection })
+const Average = ({ userSelection }) => {
+    const { result, feedback } = useAverage({ userSelection })
 
     return (
         <div className="average">
