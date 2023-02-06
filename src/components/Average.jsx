@@ -10,10 +10,10 @@ const Average = () => {
             <img src={birthdayCake} width={200} alt="" />
             <p>Âge moyen des personnes sélectionnées</p>
             {result && (
-                <p className="result">{result} ans</p>
+                <p className="result" data-test-id="average-result">{result} ans</p>
             )}
             {feedback && (
-                <p className="feedback">{feedback}</p>
+                <p className="feedback" data-test-id="average-feedback">{feedback}</p>
             )}
         </div>
     );
